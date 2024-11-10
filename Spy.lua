@@ -19,14 +19,14 @@ local function hooked(Url)
     return oldGame:HttpGet(Url)
 end
 
-request = function(info)
+getgenv().request = function(info)
     if info.Url and not table.find(BlacklistedUrls,info.Url) then 
         print(`A http request was made to {info.Url}`)
         return Stored[1](info)
     end 
 end 
 
-game = setmetatable({}, {
+getgenv().game = setmetatable({}, {
     __index = function(index, method)
         local success,response = pcall(function()
             return oldGame[method]
